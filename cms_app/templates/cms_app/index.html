@@ -27,63 +27,88 @@
   <body>
     <div id="navbar">{% include 'cms_app/navbar.html' %}</div>
     <div id="navbar-sidebar">{% include 'cms_app/navbar-sidebar.html' %}</div>
-      
-     
 
-      <div class="header-section">
-        <div class="overlay-text">
-          <h1>Sophia College for women <br>(Empowered Autonomous)</h1>
-          <h3>Department of BSc IT</h3>
-        </div>
+    <div class="header-section">
+      <div class="overlay-text">
+        <h1>Sophia College for women <br />(Empowered Autonomous)</h1>
+        <h3>Department of BSc IT</h3>
       </div>
-
-      <div class="notice-container">
-        <h2 class="title">Notices</h2>
-        <ul class="notice-list">
-            {% for notice in notices %}
-                <li>{{ notice.content }}</li>
-            {% empty %}
-                <li>No notices available.</li>
-            {% endfor %}
-        </ul>
     </div>
 
-    
+    <div class="notice-container">
+      <h2 class="title">Notices</h2>
+      <ul class="notice-list">
+        {% for notice in notices %}
+        <li>{{ notice.content }}</li>
+        {% empty %}
+        <li>No notices available.</li>
+        {% endfor %}
+      </ul>
+    </div>
+
     <section class="about-section">
       <div class="container">
-          <div class="row">
-              <div class="col-md-12">
-                  <h2 class="title">{{ preamble.title }}</h2>
-                  <p class="about-description">{{ preamble.description|safe }}</p>
-              </div>
-          </div>
-      </div>
-  </section>
-  
-  <section class="about-section">
-    <div class="container">
         <div class="row">
-            <div class="col-md-12">
-                <h2 class="title">Programme Objectives</h2>
-                <div class="about-description">
-                    <ol>
-                        {% for obj in program_objectives %}
-                            <li>{{ obj.objective }}</li>
-                        {% empty %}
-                            <li>No objectives available.</li>
-                        {% endfor %}
-                    </ol>
-                </div>
-            </div>
+          <div class="col-md-12">
+            <h2 class="title">{{ preamble.title }}</h2>
+            <p class="about-description">{{ preamble.description|safe }}</p>
+          </div>
         </div>
-    </div>
-</section>
+      </div>
+    </section>
 
-      
-      <footer id="footer">{% include 'cms_app/footer.html' %}</footer>
+    <section class="about-section">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12">
+            <h2 class="title">Programme Objectives</h2>
+            <div class="about-description">
+              <ol>
+                {% for obj in program_objectives %}
+                <li>{{ obj.objective }}</li>
+                {% empty %}
+                <li>No objectives available.</li>
+                {% endfor %}
+              </ol>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
 
-      <script src="{% static 'navbar.js' %}"></script>
-    
+    <section class="faculty-section">
+      <div class="container-fluid px-3">
+        <h2 class="title">Faculty</h2>
+        <div class="row justify-content-center">
+          <!-- Bootstrap row to align columns properly -->
+          {% for faculty in faculty_members %}
+          <div class="col-md-4 col-sm-6">
+            <!-- 3 per row on medium+, 2 per row on small screens -->
+            <div class="team-card">
+              <img
+                src="{{ faculty.image.url }}"
+                alt="{{ faculty.name }}"
+                class="team-image"
+              />
+              <h3 class="team-name">
+                {{ faculty.name }} <br />
+                {{ faculty.designation }}
+              </h3>
+              <p class="team-role">{{ faculty.qualification }}</p>
+              <p class="team-description">{{ faculty.experience }}</p>
+            </div>
+          </div>
+          {% empty %}
+          <p>No faculty members available.</p>
+          {% endfor %}
+        </div>
+      </div>
+    </section>
+
+    <footer id="footer">{% include 'cms_app/footer.html' %}</footer>
+
+    <script src="{% static 'navbar.js' %}"></script>
+
     <!-- Confetti Script -->
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 

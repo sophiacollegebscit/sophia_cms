@@ -175,13 +175,6 @@ body {
     line-height: 1.5;
   }
 
-  .team-container {
-    display: flex;
-    justify-content: center; /* Center horizontally */
-    align-items: start;    /* Center vertically */
-    flex-wrap: wrap;        /* Ensure wrapping if cards overflow */
-    gap: 1.5rem;            /* Add spacing between cards */
-  }
   
   
   @media (max-width: 768px) {

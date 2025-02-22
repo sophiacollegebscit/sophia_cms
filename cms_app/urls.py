@@ -6,3 +6,4 @@ urlpatterns = [
     path('navbar/', navbar, name='navbar'),
     path('navbar-sidebar/', navbar_sidebar, name='navbar_sidebar'),
 ]
+
