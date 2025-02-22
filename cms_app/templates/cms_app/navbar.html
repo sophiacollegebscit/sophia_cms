@@ -1,0 +1,34 @@
+
+
+<nav class="navbar navbar-expand-lg navbar-dark d-none d-lg-flex">
+    <div class="container-fluid">
+      <div class="navbar-nav d-flex flex-row dm-serif-text-regular">
+        <a class="nav-link mx-3" href="index.html">Home</a>
+        <a class="nav-link mx-3" href="aboutus.html">About Us</a>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle mx-3" href="#" id="academicsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Academics</a>
+          <ul class="dropdown-menu" aria-labelledby="academicsDropdown">
+            <li><a class="dropdown-item" href="./syllabi.html">Syllabi</a></li>
+            <li><a class="dropdown-item" href="./e-resources.html">E-Resources</a></li>
+          </ul>
+        </li>
+        <a class="nav-link mx-3" href="./outreachprograms.html">Outreach Programs</a>
+      </div>
+      <a class="navbar-brand mx-auto" href="./index.html">
+        {% load static %}
+<img src="{% static 'images/logo-white.png' %}" alt="Logo">
+      </a>
+      <div class="navbar-nav d-flex flex-row dm-serif-text-regular">
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle mx-3" href="#" id="studentLifeDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Student Life</a>
+          <ul class="dropdown-menu" aria-labelledby="studentLifeDropdown">
+            <li><a class="dropdown-item" href="./industrialvisits.html">Industrial Visits</a></li>
+            <li><a class="dropdown-item" href="./activities.html">Activities</a></li>
+          </ul>
+        </li>
+        <a class="nav-link mx-3" href="./itechnothon25.html">I-Technothon</a>
+        <a class="nav-link mx-3" href="./placement.html">Placement</a>
+        <a class="nav-link mx-3" href="./alumni.html">Alumni</a>
+      </div>
+    </div>
+  </nav>

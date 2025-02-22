@@ -1,0 +1,193 @@
+body {
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+  }
+
+  .header-section {
+    position: relative;
+    min-height: 100vh;
+    background: url("../images/sophiacollege.jpg") no-repeat center center;
+    background-size: cover;
+  }
+
+  .header-section::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 1),
+      rgba(0, 0, 0, 0.4)
+    );
+    z-index: 0;
+  }
+
+  .overlay-text {
+    font-family: "DM Serif Text", serif;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    text-align: center;
+    z-index: 1;
+    font-weight: bold;
+  }
+
+  .notice-container {
+    background-color: white;
+    padding: 1rem;
+    border-radius: 5px;
+    width: 100%;
+    margin: 0;
+  }
+  
+  .title {
+    text-align: center;
+    font-family: "DM Serif Text", serif;
+    font-size: 3rem;
+    color: #333;
+    margin-bottom: 10px;
+  }
+  
+  
+  .notice-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .notice-list li {
+    background: #333;
+    color: white;
+    padding: 10px;
+    margin-bottom: 5px;
+    font-size: 1rem;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+  }
+  .notice-list a {
+    background: #333;
+    color: white;
+    padding: 10px;
+    margin-bottom: 5px;
+    font-size: 1rem;
+    border-radius: 4px;
+    text-decoration: none;
+    transition: background-color 0.3s;
+  }
+  
+  .notice-list li:hover {
+    background-color: #444;
+  }
+  .notice-list a:hover {
+    background-color: #444;
+  }
+  
+  @media (max-width: 768px) {
+    .title {
+      font-size: 2rem;
+    }
+  
+    .notice-list li {
+      font-size: 0.9rem;
+      padding: 8px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .title {
+      font-size: 1.5rem;
+    }
+  
+    .notice-list li {
+      font-size: 0.8rem;
+      padding: 6px;
+    }
+  }
+
+  .about-section {
+    background-color: white;
+    padding: 10px;
+    margin-top: 0;
+}
+  
+  .about-description {
+    font-size: 1.2rem;
+    color: black;
+  }
+
+  @media (max-width: 768px) {
+   
+    .about-description {
+      font-size: 1rem;
+    }
+  }
+  
+  .faculty-section {
+    padding: 2rem;
+    background-color: #f5f5f5;
+    text-align: center;
+  }
+  
+  
+  .team-card {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 1rem;
+    text-align: center;
+    transition: transform 0.3s ease;
+    margin-bottom: 2rem;
+  }
+  
+  .team-image {
+    width: 90%;
+    height: 50%;
+    object-fit: cover;
+    margin-bottom: 1rem;
+  }
+  
+  .team-name {
+    
+    font-family: "DM Serif Text", serif;
+    font-size: 1.5rem;
+    font-weight: 500;
+    color: black;
+    margin-bottom: 0.5rem;
+    
+  }
+  
+  .team-role {
+    font-size: 1.5rem;
+    color: black#777;
+    margin-bottom: 1rem;
+  }
+  
+  .team-description {
+    font-size: 1rem;
+    color: #333;
+    line-height: 1.5;
+  }
+
+  .team-container {
+    display: flex;
+    justify-content: center; /* Center horizontally */
+    align-items: start;    /* Center vertically */
+    flex-wrap: wrap;        /* Ensure wrapping if cards overflow */
+    gap: 1.5rem;            /* Add spacing between cards */
+  }
+  
+  
+  @media (max-width: 768px) {
+    .team-card {
+      margin-bottom: 1.5rem;
+    }
+  }
+
+

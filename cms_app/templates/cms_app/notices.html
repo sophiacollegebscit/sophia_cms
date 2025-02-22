@@ -1,0 +1,11 @@
+<div class="notice-container">
+    <h2 class="title">Notices</h2>
+    <ul class="notice-list">
+        {% for notice in notices %}
+        <li>{{ notice.content }}</li>
+
+        {% empty %}
+            <li>No notices available.</li>
+        {% endfor %}
+    </ul>
+</div>
