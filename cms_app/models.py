@@ -30,11 +30,11 @@ class ProgramObjective(models.Model):
         return self.objective[:50]  # Display first 50 chars in admin panel
     
 class Faculty(models.Model):
-    name = models.CharField(max_length=100)
-    designation = models.CharField(max_length=100)
-    qualification = models.CharField(max_length=200)
+    name = models.CharField(max_length=255)
+    designation = models.CharField(max_length=255, blank=True, null=True)  # Allow empty values
+    qualification = models.CharField(max_length=255)
     experience = models.TextField()
-    image = models.ImageField(upload_to='faculty_images/')  # Store images in media/faculty_images/
+    image = models.ImageField(upload_to='faculty/', blank=True, null=True)  # Optional image
     class Meta:
         verbose_name_plural = "Faculty"
     def __str__(self):

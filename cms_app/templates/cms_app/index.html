@@ -92,7 +92,9 @@
               />
               <h3 class="team-name">
                 {{ faculty.name }} <br />
-                {{ faculty.designation }}
+                {% if faculty.designation %}
+                <p>{{ faculty.designation }}</p>
+                {% endif %}
               </h3>
               <p class="team-role">{{ faculty.qualification }}</p>
               <p class="team-description">{{ faculty.experience }}</p>
