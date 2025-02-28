@@ -2,6 +2,8 @@ from django.db import models
 
 class Notice(models.Model):
     content = models.TextField()
+    link = models.URLField(blank=True, null=True)  # Optional external link
+    pdf = models.FileField(upload_to='notices/', blank=True, null=True)  # PDF Upload
     class Meta:
         verbose_name_plural = "Notices"
 
@@ -39,3 +41,11 @@ class Faculty(models.Model):
         verbose_name_plural = "Faculty"
     def __str__(self):
         return self.name
+    
+class AboutPage(models.Model):
+    title = models.CharField(max_length=255)
+    content = models.TextField()
+    class Meta:
+        verbose_name_plural = "About Page"
+    def __str__(self):
+        return self.title

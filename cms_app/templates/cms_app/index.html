@@ -38,13 +38,24 @@
     <div class="notice-container">
       <h2 class="title">Notices</h2>
       <ul class="notice-list">
-        {% for notice in notices %}
-        <li>{{ notice.content }}</li>
-        {% empty %}
-        <li>No notices available.</li>
-        {% endfor %}
+          {% for notice in notices %}
+          <li>
+              {% if notice.link %}
+              <a href="{{ notice.link }}" target="_blank">
+                  {{ notice.content }}
+              </a>
+              {% elif notice.pdf %}
+              <a href="{{ notice.pdf.url }}" target="_blank">
+                  {{ notice.content }}
+              </a>
+              {% else %}
+              {{ notice.content }}
+              {% endif %}
+          </li>
+          {% endfor %}
       </ul>
-    </div>
+  </div>
+  
 
     <section class="about-section">
       <div class="container">
@@ -110,9 +121,6 @@
     <footer id="footer">{% include 'cms_app/footer.html' %}</footer>
 
     <script src="{% static 'navbar.js' %}"></script>
-
-    <!-- Confetti Script -->
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"

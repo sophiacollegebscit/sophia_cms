@@ -3,8 +3,8 @@
 <nav class="navbar navbar-expand-lg navbar-dark d-none d-lg-flex">
     <div class="container-fluid">
       <div class="navbar-nav d-flex flex-row dm-serif-text-regular">
-        <a class="nav-link mx-3" href="index.html">Home</a>
-        <a class="nav-link mx-3" href="aboutus.html">About Us</a>
+        <a class="nav-link mx-3" href="{% url 'index' %}">Home</a>
+        <a class="nav-link mx-3" href="{% url 'aboutus' %}">About Us</a>
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle mx-3" href="#" id="academicsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Academics</a>
           <ul class="dropdown-menu" aria-labelledby="academicsDropdown">
