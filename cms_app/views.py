@@ -6,6 +6,9 @@ from cms_app.models import Notice
 from .models import Preamble, ProgramObjective, Faculty
 from .models import AboutPage
 from .models import Syllabus
+from .models import Semester
+
+
 def index(request):
     notices = Notice.objects.all()
     preamble = Preamble.objects.first()  # Assuming only one preamble entry
@@ -30,6 +33,9 @@ def syllabi_view(request):
         grouped_syllabi[key] = list(group)
     return render(request, "cms_app/syllabi.html",  {'grouped_syllabi': grouped_syllabi})
 
+def e_resources(request):
+    semesters = Semester.objects.prefetch_related("resources").all()
+    return render(request, "cms_app/e-resources.html", {"semesters": semesters})
 
 def navbar(request):
     return render(request, 'navbar.html')

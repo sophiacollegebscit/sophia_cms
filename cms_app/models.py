@@ -59,3 +59,19 @@ class Syllabus(models.Model):
         verbose_name_plural = "Syllabi"
     def __str__(self):
         return f"{self.year} - {self.title} ({self.semester})"
+    
+class Semester(models.Model):
+    name = models.CharField(max_length=50, unique=True)
+
+    def __str__(self):
+        return self.name
+
+class EResource(models.Model):
+    semester = models.ForeignKey(Semester, on_delete=models.CASCADE, related_name="resources")
+    title = models.CharField(max_length=255)
+    url = models.URLField()
+    class Meta:
+        verbose_name_plural = "E-Resources"
+
+    def __str__(self):
+        return f"{self.title} ({self.semester.name})"

@@ -1,0 +1,62 @@
+.title {
+    text-align: center;
+    font-family: "DM Serif Text", serif;
+    font-size: 3rem;
+    color: #333;
+    margin-bottom: 10px;
+  }
+
+  .material{
+    padding: 20px 20px;
+    padding-left: 50px;
+    padding-right: 50px;
+  }
+
+  .material-container {
+    padding: 20px;
+    display: flex;
+    gap: 20px; /* Space between columns */
+}
+
+.material-column {
+    flex: 1; /* Equal width columns */
+}
+
+.material-item {
+    margin-bottom: 20px; /* Space between titles */
+}
+
+h4 {
+    font-family: "DM Serif Text", serif;
+    font-size: 2rem;
+    margin-bottom: 10px;
+}
+
+ul {
+    list-style-type: none; /* Remove bullet points */
+    padding: 0;
+}
+
+ul li {
+    margin-bottom: 5px;
+}
+
+ul li a {
+    text-decoration: none;
+    color: #007BFF; /* Blue hyperlink color */
+    transition: color 0.3s;
+}
+
+ul li a:hover {
+    color: #0056b3; /* Darker blue on hover */
+}
+
+/* Style for the list item */
+li.list-group-item {
+    position: relative;
+}
+
+.card-header {
+    background-color: #444;
+    font-size: 1.5rem; /* Adjust the font size as per your preference */
+  }
