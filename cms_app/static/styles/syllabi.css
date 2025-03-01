@@ -1,0 +1,71 @@
+body {
+    font-family: Arial, sans-serif;
+  }
+
+  .syllabi-section {
+    padding: 30px;
+    background-color: white /* Light background */
+  }
+
+  .section-title{
+    font-size: 3rem;
+    padding: 10px;
+    font-family: "DM Serif Text", serif;
+    color: #333;
+  }
+
+  /* Nav Pill Styles */
+  .nav-pills .nav-link {
+    
+    font-family: "DM Serif Text", serif;
+    font-size: 1.2rem; /* Font size for nav links */
+    font-weight: 500; /* Bold font */
+    color: #333; /* Text color */
+    background-color: #e0e0e0; /* Background color */
+    border-radius: 5px;
+    margin-bottom: 5px;
+    padding: 10px 15px;
+  }
+
+  .nav-pills .nav-link.active {
+    color: #fff; /* Active text color */
+    background-color: #333; /* Active background color */
+  }
+
+  /* Hover Effects for Nav Links */
+  .nav-pills .nav-link:hover {
+    color: #fff; /* Text color on hover */
+    background-color: #555; /* Background color on hover */
+  }
+
+  /* Card Styles */
+  .card {
+    background-color: #ffffff; /* Card background color */
+    border: 1px solid #ddd; /* Card border */
+    transition: transform 0.2s, box-shadow 0.2s; /* Animation for hover effect */
+  }
+
+  .card:hover {
+    transform: scale(1.02); /* Slight scale on hover */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* Shadow on hover */
+    text-decoration: underline;
+  }
+
+  .card-title {
+    font-size: 1.2rem; /* Font size for card titles */
+    font-weight: bold;
+    color: #333; /* Card title color */
+  }
+
+  .card-text {
+    font-size: 1 rem;
+    color: #555; /* Text color in card body */
+  }
+
+  /* Container and Tab Pane */
+  .container {
+    max-width: 1000px;
+  }
+a{
+    text-decoration: none;
+}
