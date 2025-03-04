@@ -1,5 +1,8 @@
-from django.shortcuts import render
-
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import render, redirect
+from django.contrib.auth import login 
+from django.contrib import messages
+from .models import Student
 from cms_app.models import Notice
 from .models import Preamble, ProgramObjective, Faculty
 from .models import AboutPage
@@ -7,9 +10,10 @@ from .models import AcademicYear
 from .models import Semester
 from .models import AboutProgram, PlacementRecord, JobProfile, Recruiter
 from .models import Alumni
-
-
-
+from django.contrib.auth.hashers import check_password
+from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib.auth import update_session_auth_hash
+from django.contrib.auth.hashers import make_password
 
 def index(request):
     notices = Notice.objects.all()
@@ -59,5 +63,68 @@ def navbar(request):
 def navbar_sidebar(request):
     return render(request, 'navbar-sidebar.html')
 
+def student_login(request):
+    error_message = None  # Initialize error message
 
+    if request.method == "POST":
+        email = request.POST.get("email")
+        password = request.POST.get("password")
 
+        if not email:
+            error_message = "Please enter your email."
+        elif not password:
+            error_message = "Please enter your password."
+        else:
+            try:
+                student = Student.objects.get(email=email)
+                if check_password(password, student.password):
+                    request.session['student_email'] = student.email
+                    next_url = request.GET.get('next', '/dashboard/')
+                    return redirect(next_url)
+                else:
+                    error_message = "Invalid password."
+            except Student.DoesNotExist:
+                error_message = "Invalid email."
+
+    # Render the template and pass the error_message, even if it is None
+    return render(request, "cms_app/student_login.html", {"error_message": error_message})
+def student_dashboard(request):
+    if 'student_email' in request.session:
+        try:
+            student = Student.objects.get(email=request.session['student_email'])
+            return render(request, 'cms_app/student_dashboard.html', {'student': student})
+        except Student.DoesNotExist:
+            return render(request, 'cms_app/student_dashboard.html', {'error': 'Student record does not exist'})
+    else:
+        return redirect('student_login')
+
+def student_logout(request):
+    try:
+        del request.session['student_email']
+    except KeyError:
+        pass
+    return redirect('student_login')
+
+def reset_password(request):
+    if 'student_email' not in request.session:
+        return redirect('student_login')
+
+    student = Student.objects.get(email=request.session['student_email'])
+
+    if request.method == 'POST':
+        old_password = request.POST.get('old_password')
+        new_password = request.POST.get('new_password')
+        confirm_password = request.POST.get('confirm_password')
+
+        if check_password(old_password, student.password):
+            if new_password == confirm_password:
+                student.password = make_password(new_password)
+                student.save()
+                messages.success(request, 'Your password has been updated!')
+                return redirect('student_dashboard')
+            else:
+                messages.error(request, 'New passwords do not match.')
+        else:
+            messages.error(request, 'Incorrect old password.')
+
+    return render(request, 'cms_app/reset_password.html')

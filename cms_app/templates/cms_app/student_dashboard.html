@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard</title>
+</head>
+<body>
+    {% if student %}
+        <h1>Welcome, {{ student.first_name }} {{ student.last_name }}!</h1>
+        <p>Email: {{ student.email }}</p>
+        <p>Class: {{ student.class_name }}</p>
+        <p>Roll No: {{ student.roll_no }}</p>
+        <a href="{% url 'reset_password' %}">Reset Password</a>
+        <a href="{% url 'student_logout' %}">Logout</a>
+    {% elif error %}
+        <p style="color: red;">{{ error }}</p>
+        <a href="{% url 'student_login' %}">Login</a>
+    {% else %}
+        <a href="{% url 'student_login' %}">Login</a>
+    {% endif %}
+
+</body>
+</html>

@@ -1,5 +1,4 @@
 from django.db import models
-
 class Notice(models.Model):
     content = models.TextField()
     link = models.URLField(blank=True, null=True)  # Optional external link
@@ -148,3 +147,5 @@ class Student(models.Model):
     
     class Meta:
         db_table = 'cms_app_student'
+
+        

@@ -5,6 +5,10 @@ from .views import syllabus_view
 from .views import e_resources
 from .views import placement_page
 from .views import alumni_page
+from .views import student_login
+from .views import student_dashboard
+from .views import reset_password
+from .views import student_logout
 
 urlpatterns = [
     path('', index, name='index'),
@@ -15,5 +19,9 @@ urlpatterns = [
     path('e-resources/', e_resources, name='e_resources'),
      path("placements/", placement_page, name="placement"),
      path("alumni/", alumni_page, name="alumni"),
+     path('login/', student_login, name='student_login'),
+    path('dashboard/', student_dashboard, name='student_dashboard'),
+    path('reset_password/', reset_password, name='reset_password'),
+     path('logout/', student_logout, name='student_logout'),
 ]
 
