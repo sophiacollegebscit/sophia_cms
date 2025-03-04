@@ -1,0 +1,71 @@
+.login-container {
+    color: white;
+    font-family: "DM Serif Text", serif;
+    position: absolute;
+    top: 60%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0, 0, 0, 0.750);
+    padding: 20px;
+    border-radius: 10px;
+    align-content: center;
+  }
+  /* For the largest screens */
+@media (min-width: 1200px) {
+  .login-container {
+    width: 30%;
+    margin: 0 auto;
+  }
+}
+
+/* For medium-large screens */
+@media (min-width: 992px) and (max-width: 1199px) {
+  .login-container {
+    width: 50%; /* Adjust as needed */
+    margin: 0 auto;
+  }
+}
+
+/* For medium screens */
+@media (min-width: 768px) and (max-width: 991px) {
+  .login-container {
+    width: 70%; /* Adjust as needed */
+    margin: 0 auto;
+  }
+}
+
+/* For small screens */
+@media (max-width: 767px) {
+  .login-container {
+    width: 90%; /* Full width on small screens */
+    margin: 0 auto;
+  }
+}
+
+
+  .login-form {
+    flex: 1;
+  }
+
+  .form-label {
+    font-family: "DM Serif Text", serif;
+    font-size: 1rem;
+    color: white;
+  }
+
+  .btn-primary {
+    
+    background-color: rgb(45, 45, 45);
+    border-color: #000;
+  }
+  .btn-secondary{
+    background-color: white;
+  }
+
+  .btn-secondary:hover{
+    background-color: white;
+  }
+  .btn-primary:hover {
+    background-color: #444;
+    border-color: #444;
+  }

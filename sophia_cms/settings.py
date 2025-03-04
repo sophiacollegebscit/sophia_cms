@@ -39,6 +39,8 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "cms_app",
     "mathfilters",
+    'import_export',
+
 ]
 
 MIDDLEWARE = [

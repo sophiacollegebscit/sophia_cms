@@ -8,9 +8,11 @@ from .models import AcademicYear, Syllabus
 from .models import Semester, EResource
 from .models import AboutProgram, PlacementRecord, JobProfile, Recruiter
 from .models import Alumni
-
-
-
+from import_export import resources
+from import_export.admin import ExportMixin, ImportMixin 
+from .models import Student
+from django.contrib.auth.hashers import make_password
+from .resources import StudentResource
 
 admin.site.site_header = "BScIT Admin Panel"
 admin.site.site_title = "BScIT Admin"
@@ -34,5 +36,27 @@ class AlumniAdmin(admin.ModelAdmin):
     list_display = ("name", "batch", "current_position")
     search_fields = ("name", "batch", "current_position")
 
+class StudentResource(resources.ModelResource):
+    class Meta:
+        model = Student
+        exclude = ('id',)  # Exclude 'id' from import since it is auto-generated
+        import_id_fields = ('email',)  # You can import based on email (unique)
+
+    def before_import_row(self, row, **kwargs):
+        # Ensure password is set to 'student@BSCIT' before import if it's not provided
+        if 'password' not in row or not row['password']:
+            row['password'] = 'student@BSCIT'
+        # Hash the password (you can use Django's make_password method for hashing)
+        row['password'] = make_password(row['password'])
+        return row
+
+# Customize the StudentAdmin class to add the import/export functionality
+class StudentAdmin(ImportMixin, ExportMixin, admin.ModelAdmin):  # Both ImportMixin and ExportMixin
+    resource_class = StudentResource
+    list_display = ('email', 'first_name', 'last_name', 'class_name', 'roll_no')
+    search_fields = ('email', 'first_name', 'last_name', 'class_name', 'roll_no')
+
+# Register the Student model with the admin interface
+admin.site.register(Student, StudentAdmin)
 class ContentBlockAdmin(admin.ModelAdmin):
     list_display = ('title', 'updated_at')  # Display fields in admin panel
