@@ -4,7 +4,7 @@ from .models import Preamble
 from .models import ProgramObjective
 from .models import Faculty
 from .models import AboutPage
-from .models import Syllabus
+from .models import AcademicYear, Syllabus
 from .models import Semester, EResource
 
 
@@ -17,6 +17,7 @@ admin.site.register(Preamble)
 admin.site.register(ProgramObjective)
 admin.site.register(Faculty)
 admin.site.register(AboutPage)
+admin.site.register(AcademicYear)
 admin.site.register(Syllabus)
 admin.site.register(Semester)
 admin.site.register(EResource)

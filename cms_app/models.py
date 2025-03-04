@@ -50,15 +50,23 @@ class AboutPage(models.Model):
     def __str__(self):
         return self.title
     
+class AcademicYear(models.Model):
+    name = models.CharField(max_length=50, unique=True)
+
+    def __str__(self):
+        return self.name
+
 class Syllabus(models.Model):
-    year = models.CharField(max_length=9)  # Example: "2024-2025"
-    title = models.CharField(max_length=255)  # Example: "First Year BSc IT NEP Syllabus"
-    semester = models.CharField(max_length=20)  # Example: "Semester 1"
-    file = models.FileField(upload_to="syllabus/")  # File upload path
+    academic_year = models.ForeignKey(AcademicYear, on_delete=models.CASCADE, related_name="syllabi")
+    title = models.CharField(max_length=255)
+    semester = models.CharField(max_length=20)
+    file = models.FileField(upload_to="syllabus/")
+
+
     class Meta:
         verbose_name_plural = "Syllabi"
     def __str__(self):
-        return f"{self.year} - {self.title} ({self.semester})"
+        return f"{self.title} ({self.academic_year.name})"
     
 class Semester(models.Model):
     name = models.CharField(max_length=50, unique=True)
