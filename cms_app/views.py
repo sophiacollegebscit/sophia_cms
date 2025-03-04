@@ -1,12 +1,12 @@
 from django.shortcuts import render
-from itertools import groupby
-from operator import attrgetter
 
 from cms_app.models import Notice
 from .models import Preamble, ProgramObjective, Faculty
 from .models import AboutPage
 from .models import AcademicYear
 from .models import Semester
+from .models import AboutProgram, PlacementRecord, JobProfile, Recruiter
+
 
 
 def index(request):
@@ -34,8 +34,25 @@ def e_resources(request):
     semesters = Semester.objects.prefetch_related("resources").all()
     return render(request, "cms_app/e-resources.html", {"semesters": semesters})
 
+def placement_page(request):
+    about = AboutProgram.objects.first()  # Fetch About Program
+    placements = PlacementRecord.objects.all().order_by("-academic_year")  # Fetch all Placement Records
+    job_profiles = JobProfile.objects.all()  # Fetch Job Profiles
+    recruiters = Recruiter.objects.all()  # Fetch Recruiters
+
+    return render(request, "cms_app/placement.html", {
+        "about": about,
+        "placements": placements,
+        "job_profiles": job_profiles,
+        "recruiters": recruiters,
+    })
+
+
 def navbar(request):
     return render(request, 'navbar.html')
 
 def navbar_sidebar(request):
     return render(request, 'navbar-sidebar.html')
+
+
+

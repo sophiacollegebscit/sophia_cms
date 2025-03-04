@@ -83,3 +83,41 @@ class EResource(models.Model):
 
     def __str__(self):
         return f"{self.title} ({self.semester.name})"
+
+class PlacementRecord(models.Model):
+    academic_year = models.CharField(max_length=20, unique=True)
+    total_students = models.IntegerField()
+    students_placed = models.IntegerField()
+    higher_studies = models.IntegerField(blank=True, null=True)  # Allow empty values
+
+    def __str__(self):
+        return f"{self.academic_year} - {self.total_students} students"
+    
+class AboutProgram(models.Model):
+    title = models.CharField(max_length=255, default="About the Program")
+    description = models.TextField()
+
+    def __str__(self):
+        return self.title
+
+class PlacementRecord(models.Model):
+    academic_year = models.CharField(max_length=20)
+    total_students = models.PositiveIntegerField()
+    students_placed = models.PositiveIntegerField()
+    pursuing_higher_studies = models.CharField(max_length=10, blank=True, null=True)
+
+    def __str__(self):
+        return self.academic_year
+
+class JobProfile(models.Model):
+    name = models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.name
+
+class Recruiter(models.Model):
+    company_name = models.CharField(max_length=255)
+    logo = models.ImageField(upload_to="recruiter_logos/")
+
+    def __str__(self):
+        return self.company_name

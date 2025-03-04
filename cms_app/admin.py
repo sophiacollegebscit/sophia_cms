@@ -6,6 +6,9 @@ from .models import Faculty
 from .models import AboutPage
 from .models import AcademicYear, Syllabus
 from .models import Semester, EResource
+from .models import AboutProgram, PlacementRecord, JobProfile, Recruiter
+
+
 
 
 admin.site.site_header = "BScIT Admin Panel"
@@ -21,5 +24,9 @@ admin.site.register(AcademicYear)
 admin.site.register(Syllabus)
 admin.site.register(Semester)
 admin.site.register(EResource)
+admin.site.register(AboutProgram)
+admin.site.register(PlacementRecord)
+admin.site.register(JobProfile)
+admin.site.register(Recruiter)
 class ContentBlockAdmin(admin.ModelAdmin):
     list_display = ('title', 'updated_at')  # Display fields in admin panel
