@@ -1,0 +1,85 @@
+/* Set the container width to 80% and center it horizontally */
+
+
+.container {
+  width: 80%;
+  margin: 0 auto;
+  padding-bottom: 40px;
+}
+
+/* Style the card component */
+.card-custom {
+  width: 100%;
+  background-color: #fff;
+  border-radius: 10px;
+  /* Increased box-shadow for more depth */
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* Adjusted values */
+  padding: 20px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+/* Responsive behavior for smaller screens */
+@media (max-width: 768px) {
+  .card-custom {
+    flex-direction: column;
+  }
+  .card-custom img {
+    margin-bottom: 20px;
+  }
+}
+
+/* Style the image inside the card */
+.card-custom img {
+  height: 200px;
+  object-fit: contain; /* Changed to contain */
+  border-radius: 50%;
+  margin-right: 20px;
+}
+
+/* Style the text content inside the card */
+.card-custom h2 {
+  /* DM Serif Display font */
+  font-family: "DM Serif Display", serif; /* Make sure to import this font */
+  font-size: 24px; /* Increased font size */
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.card-custom h3 {
+  font-size: 16px;
+  color: #999;
+  margin-bottom: 10px;
+}
+
+.quote-symbol {
+  font-size: 4em;
+  font-family: "Playfair Display";
+  color: #ffff00; /* Example quote color */
+  float: left;
+  margin-top: -10px;
+  margin-right: 5px;
+}
+.card-custom p {
+  /* Example using a system font stack with a fallback */
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
+    Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  font-size: 16px; /* Slightly increased font size */
+  line-height: 1.6; /* Improved line height for readability */
+}
+
+/* Style the LinkedIn icon */
+.linkedin-icon {
+  color: #0077b5;
+  margin-left: 10px;
+}
+
+.linkedin-icon:hover {
+  color: #006699;
+}
+
+b {
+  font-family: "DM Serif Display", serif;
+  font-size: 1.2rem;
+}

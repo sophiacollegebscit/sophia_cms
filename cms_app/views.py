@@ -6,6 +6,8 @@ from .models import AboutPage
 from .models import AcademicYear
 from .models import Semester
 from .models import AboutProgram, PlacementRecord, JobProfile, Recruiter
+from .models import Alumni
+
 
 
 
@@ -47,6 +49,9 @@ def placement_page(request):
         "recruiters": recruiters,
     })
 
+def alumni_page(request):
+    alumni = Alumni.objects.all()
+    return render(request, "cms_app/alumni.html", {"alumni": alumni})
 
 def navbar(request):
     return render(request, 'navbar.html')

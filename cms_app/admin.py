@@ -7,6 +7,7 @@ from .models import AboutPage
 from .models import AcademicYear, Syllabus
 from .models import Semester, EResource
 from .models import AboutProgram, PlacementRecord, JobProfile, Recruiter
+from .models import Alumni
 
 
 
@@ -28,5 +29,10 @@ admin.site.register(AboutProgram)
 admin.site.register(PlacementRecord)
 admin.site.register(JobProfile)
 admin.site.register(Recruiter)
+@admin.register(Alumni)
+class AlumniAdmin(admin.ModelAdmin):
+    list_display = ("name", "batch", "current_position")
+    search_fields = ("name", "batch", "current_position")
+
 class ContentBlockAdmin(admin.ModelAdmin):
     list_display = ('title', 'updated_at')  # Display fields in admin panel

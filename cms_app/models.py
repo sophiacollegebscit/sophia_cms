@@ -121,3 +121,15 @@ class Recruiter(models.Model):
 
     def __str__(self):
         return self.company_name
+    
+class Alumni(models.Model):
+    name = models.CharField(max_length=100)
+    linkedin_url = models.URLField(blank=True, null=True)
+    profile_image = models.ImageField(upload_to="alumni_images/")
+    current_position = models.CharField(max_length=255)
+    batch = models.CharField(max_length=10)
+    review = models.TextField(blank=True, null=True)
+    advice = models.TextField(blank=True, null=True)
+
+    def __str__(self):
+        return self.name
