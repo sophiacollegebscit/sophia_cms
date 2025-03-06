@@ -1,11 +1,12 @@
-<link rel="stylesheet" href="./styles/footer.css">
+{% load static %}
+<link rel="stylesheet" href="{% static 'styles/footer.css' %}?v=1" />
 
 <footer class="footer">
     <div class="container">
       <div class="row">
         <!-- Left Side: Logo and Contact Info -->
         <div class="col-md-6 text-center text-md-start left">
-          {% load static %}
+          
 <img src="{% static 'images/logo-white.png' %}" alt="Logo" class="footer-logo mb-2"><br />
           <h3>Contact Us</h3>
           <p>
