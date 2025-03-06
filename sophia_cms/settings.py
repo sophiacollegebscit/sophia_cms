@@ -110,6 +110,7 @@ AUTH_PASSWORD_VALIDATORS = [
         "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
     },
 ]
+LOGIN_URL = '/login/'  # Change to your actual student login URL
 
 LOGIN_REDIRECT_URL = '/dashboard/'
 LOGOUT_REDIRECT_URL = '/login/'
@@ -124,6 +125,14 @@ TIME_ZONE = "UTC"
 USE_I18N = True
 
 USE_TZ = True
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'website.bscit@sophiacollege.edu.in'  # Replace with your email
+EMAIL_HOST_PASSWORD = 'hrcy qtaf tuah ermc'  # Use an App Password, not your actual password
+
 
 
 # Static files (CSS, JavaScript, Images)

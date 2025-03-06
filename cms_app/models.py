@@ -141,6 +141,7 @@ class Student(models.Model):
     class_name = models.CharField(max_length=50)
     roll_no = models.CharField(max_length=50)
     password = models.CharField(max_length=255)
+    reset_token = models.CharField(max_length=50, blank=True, null=True)
 
     def __str__(self):
         return f'{self.first_name} {self.last_name}'

@@ -1,6 +1,9 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.contrib import messages
+
+from django.utils.crypto import get_random_string
+from django.urls import reverse
 from .models import Student
 from cms_app.models import Notice
 from .models import Preamble, ProgramObjective, Faculty
@@ -12,6 +15,7 @@ from .models import Alumni
 from django.contrib.auth.hashers import check_password
 from django.contrib.auth.hashers import make_password
 from .models import LectureTimetable, ExamTimetable, StudentClass
+from django.core.mail import send_mail
 def index(request):
     notices = Notice.objects.all()
     preamble = Preamble.objects.first()  # Assuming only one preamble entry
@@ -138,6 +142,51 @@ def reset_password(request):
             messages.error(request, 'Incorrect old password.')
 
     return render(request, 'cms_app/reset_password.html')
+
+def student_password_reset_request(request):
+    if request.method == "POST":
+        email = request.POST.get("email")
+        try:
+            student = Student.objects.get(email=email)
+            token = get_random_string(30)  # Generate a random token
+            student.reset_token = token  # Store token in the database
+            student.save()
+            
+            reset_link = request.build_absolute_uri(reverse("student_password_reset_confirm", args=[token]))
+
+            send_mail(
+                "Password Reset Request",
+                f"Click the link to reset your password: {reset_link}",
+                "website.bscit@sophiacollege.edu.in",
+                [email],
+                fail_silently=False,
+            )
+            messages.success(request, "A password reset link has been sent to your email.")
+        except Student.DoesNotExist:
+            messages.error(request, "No account found with this email.")
+    
+    return render(request, "cms_app/student_password_reset_request.html")
+
+
+def student_password_reset_confirm(request, token):
+    try:
+        student = Student.objects.get(reset_token=token)
+    except Student.DoesNotExist:
+        return render(request, "cms_app/student_password_reset_confirm.html", {"error": "Invalid reset link"})
+
+    if request.method == "POST":
+        new_password = request.POST.get("new_password")
+        confirm_password = request.POST.get("confirm_password")
+
+        if new_password == confirm_password:
+            student.password = make_password(new_password)  # Hash the password manually
+            student.reset_token = None  # Clear the reset token after use
+            student.save()
+            return redirect("student_login")
+        else:
+            return render(request, "cms_app/student_password_reset_confirm.html", {"error": "Passwords do not match"})
+
+    return render(request, "cms_app/student_password_reset_confirm.html")
 
 def timetables(request):
     classes = StudentClass.objects.all()

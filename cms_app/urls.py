@@ -10,6 +10,7 @@ from .views import student_dashboard
 from .views import reset_password
 from .views import student_logout
 from .views import timetables
+from .views import student_password_reset_request, student_password_reset_confirm
 
 urlpatterns = [
     path('', index, name='index'),
@@ -25,5 +26,7 @@ urlpatterns = [
     path('reset_password/', reset_password, name='reset_password'),
      path('logout/', student_logout, name='student_logout'),
       path("timetables/", timetables, name="timetables"),
+     path("student_password_reset/", student_password_reset_request, name="student_password_reset"),
+    path("reset/<str:token>/", student_password_reset_confirm, name="student_password_reset_confirm"),
 ]
 
