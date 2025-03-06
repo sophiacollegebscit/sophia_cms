@@ -1,6 +1,5 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
-from django.contrib.auth import login 
 from django.contrib import messages
 from .models import Student
 from cms_app.models import Notice
@@ -11,10 +10,8 @@ from .models import Semester
 from .models import AboutProgram, PlacementRecord, JobProfile, Recruiter
 from .models import Alumni
 from django.contrib.auth.hashers import check_password
-from django.contrib.auth.forms import PasswordChangeForm
-from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.hashers import make_password
-
+from .models import LectureTimetable, ExamTimetable, StudentClass
 def index(request):
     notices = Notice.objects.all()
     preamble = Preamble.objects.first()  # Assuming only one preamble entry
@@ -92,7 +89,20 @@ def student_dashboard(request):
     if 'student_email' in request.session:
         try:
             student = Student.objects.get(email=request.session['student_email'])
-            return render(request, 'cms_app/student_dashboard.html', {'student': student})
+
+            # Mapping class_name to numerical values
+            class_mapping = {"FY": 1, "SY": 2, "TY": 3}
+            student_class = class_mapping.get(student.class_name)  # Get the corresponding number
+
+            # Fetch the exam timetable for the student's class
+            exam_timetable = None
+            if student_class is not None:
+                exam_timetable = ExamTimetable.objects.filter(student_class=student_class).first()
+
+            return render(request, 'cms_app/student_dashboard.html', {
+                'student': student,
+                'exam_timetable': exam_timetable
+            })
         except Student.DoesNotExist:
             return render(request, 'cms_app/student_dashboard.html', {'error': 'Student record does not exist'})
     else:
@@ -128,3 +138,15 @@ def reset_password(request):
             messages.error(request, 'Incorrect old password.')
 
     return render(request, 'cms_app/reset_password.html')
+
+def timetables(request):
+    classes = StudentClass.objects.all()
+    lecture_timetables = LectureTimetable.objects.all()
+    exam_timetables = ExamTimetable.objects.all()
+    
+    context = {
+        "classes": classes,
+        "lecture_timetables": lecture_timetables,
+        "exam_timetables": exam_timetables,
+    }
+    return render(request, "cms_app/timetables.html", context)

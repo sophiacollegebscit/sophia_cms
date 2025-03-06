@@ -4,21 +4,73 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Student Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f4f4f4;
+        }
+        .profile-container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 300px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        h1 {
+            color: #333;
+        }
+        p {
+            margin: 10px 0;
+            font-size: 16px;
+            color: #555;
+        }
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+            text-decoration: none;
+            color: white;
+            background: #007bff;
+            border-radius: 5px;
+            transition: 0.3s;
+        }
+        .btn:hover {
+            background: #0056b3;
+        }
+        .btn-secondary {
+            background: #dc3545;
+        }
+        .btn-secondary:hover {
+            background: #a71d2a;
+        }
+    </style>
 </head>
 <body>
-    {% if student %}
-        <h1>Welcome, {{ student.first_name }} {{ student.last_name }}!</h1>
-        <p>Email: {{ student.email }}</p>
-        <p>Class: {{ student.class_name }}</p>
-        <p>Roll No: {{ student.roll_no }}</p>
-        <a href="{% url 'reset_password' %}">Reset Password</a>
-        <a href="{% url 'student_logout' %}">Logout</a>
-    {% elif error %}
-        <p style="color: red;">{{ error }}</p>
-        <a href="{% url 'student_login' %}">Login</a>
-    {% else %}
-        <a href="{% url 'student_login' %}">Login</a>
-    {% endif %}
-
+    <div class="profile-container">
+        {% if student %}
+            <h1>Welcome, {{ student.first_name }} {{ student.last_name }}!</h1>
+            <p><strong>Roll No:</strong> {{ student.roll_no }}</p>
+            <p><strong>Email:</strong> {{ student.email }}</p>
+            <a href="#" class="btn">View Lecture Timetable</a>
+            <a href="#" class="btn">View Exam Timetable</a>
+            <a href="#" class="btn">Leave Application</a>
+            <a href="{% url 'reset_password' %}" class="btn btn-secondary">Reset Password</a>
+            <a href="{% url 'student_logout' %}" class="btn btn-secondary">Logout</a>
+        {% elif error %}
+            <p style="color: red">{{ error }}</p>
+            <a href="{% url 'student_login' %}" class="btn">Login</a>
+        {% else %}
+            <a href="{% url 'student_login' %}" class="btn">Login</a>
+        {% endif %}
+    </div>
 </body>
 </html>

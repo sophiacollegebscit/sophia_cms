@@ -148,4 +148,32 @@ class Student(models.Model):
     class Meta:
         db_table = 'cms_app_student'
 
+
+class StudentClass(models.Model):
+    name = models.CharField(max_length=2, unique=True)  # No predefined choices
+
+    def __str__(self):
+        return self.name
+    
+
+class LectureTimetable(models.Model):
+    student_class = models.ForeignKey(StudentClass, on_delete=models.CASCADE)
+    title = models.CharField(max_length=255)
+    file = models.FileField(upload_to="timetables/lecture/")
+    uploaded_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.student_class} - {self.title}"
+
+
+class ExamTimetable(models.Model):
+    student_class = models.ForeignKey(StudentClass, on_delete=models.CASCADE)
+    title = models.CharField(max_length=255)
+    file = models.FileField(upload_to="timetables/exam/")
+    uploaded_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.student_class} - {self.title}"
+
+
         

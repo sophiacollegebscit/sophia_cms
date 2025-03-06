@@ -13,6 +13,7 @@ from import_export.admin import ExportMixin, ImportMixin
 from .models import Student
 from django.contrib.auth.hashers import make_password
 from .resources import StudentResource
+from .models import StudentClass, LectureTimetable, ExamTimetable
 
 admin.site.site_header = "BScIT Admin Panel"
 admin.site.site_title = "BScIT Admin"
@@ -60,3 +61,19 @@ class StudentAdmin(ImportMixin, ExportMixin, admin.ModelAdmin):  # Both ImportMi
 admin.site.register(Student, StudentAdmin)
 class ContentBlockAdmin(admin.ModelAdmin):
     list_display = ('title', 'updated_at')  # Display fields in admin panel
+
+@admin.register(StudentClass)
+class StudentClassAdmin(admin.ModelAdmin):
+    list_display = ("name",)
+
+@admin.register(LectureTimetable)
+class LectureTimetableAdmin(admin.ModelAdmin):
+    list_display = ("title", "student_class", "uploaded_at")
+    search_fields = ("title",)
+    list_filter = ("student_class",)
+
+@admin.register(ExamTimetable)
+class ExamTimetableAdmin(admin.ModelAdmin):
+    list_display = ("title", "student_class", "uploaded_at")
+    search_fields = ("title",)
+    list_filter = ("student_class",)

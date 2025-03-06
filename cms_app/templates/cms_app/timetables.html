@@ -1,0 +1,33 @@
+
+
+{% block content %}
+<h2 class="section-title text-center mb-4">Timetables</h2>
+
+{% for class in classes %}
+    <h3>{{ class.get_name_display }}</h3>
+
+    <div class="lecture-timetable">
+        <h4>Lecture Timetable</h4>
+        {% for timetable in lecture_timetables %}
+            {% if timetable.student_class == class %}
+                <p>{{ timetable.title }} - 
+                <a href="{{ timetable.file.url }}" target="_blank">View File</a></p>
+            {% endif %}
+        {% empty %}
+            <p>No lecture timetable available</p>
+        {% endfor %}
+    </div>
+
+    <div class="exam-timetable">
+        <h4>Exam Timetable</h4>
+        {% for timetable in exam_timetables %}
+            {% if timetable.student_class == class %}
+                <p>{{ timetable.title }} - 
+                <a href="{{ timetable.file.url }}" target="_blank">View File</a></p>
+            {% endif %}
+        {% empty %}
+            <p>No exam timetable available</p>
+        {% endfor %}
+    </div>
+{% endfor %}
+{% endblock %}
