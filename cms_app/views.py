@@ -95,23 +95,23 @@ def student_dashboard(request):
         try:
             student = Student.objects.get(email=request.session['student_email'])
 
-            # Mapping class_name to numerical values
+            # Mapping class_name (text) to numerical values
             class_mapping = {"FY": 1, "SY": 2, "TY": 3}
-            student_class = class_mapping.get(student.class_name)  # Get the corresponding number
+            student_class_id = class_mapping.get(student.class_name)  # Convert class name to ID
 
-            # Fetch the exam timetable for the student's class
-            exam_timetable = None
-            if student_class is not None:
-                exam_timetable = ExamTimetable.objects.filter(student_class=student_class).first()
+            # Fetch both timetables based on student class
+            exam_timetable = ExamTimetable.objects.filter(student_class=student_class_id).first()
+            lecture_timetable = LectureTimetable.objects.filter(student_class=student_class_id).first()
 
             return render(request, 'cms_app/student_dashboard.html', {
                 'student': student,
-                'exam_timetable': exam_timetable
+                'exam_timetable': exam_timetable,
+                'lecture_timetable': lecture_timetable
             })
         except Student.DoesNotExist:
             return render(request, 'cms_app/student_dashboard.html', {'error': 'Student record does not exist'})
-    else:
-        return redirect('student_login')
+    
+    return redirect('student_login')
 
 def student_logout(request):
     try:
