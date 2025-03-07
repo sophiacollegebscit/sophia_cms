@@ -1,20 +1,40 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leave History</title>
+    <link rel="stylesheet" href="{% static 'styles/dashboard.css' %}">
+</head>
+<body>
 
-{% block content %}
-<h2>Your Leave Applications</h2>
-<table>
-    <tr>
-        <th>Start Date</th>
-        <th>End Date</th>
-        <th>Reason</th>
-        <th>Status</th>
-    </tr>
-    {% for leave in leave_applications %}
-    <tr>
-        <td>{{ leave.start_date }}</td>
-        <td>{{ leave.end_date }}</td>
-        <td>{{ leave.reason }}</td>
-        <td>{{ leave.status }}</td>
-    </tr>
-    {% endfor %}
-</table>
-{% endblock %}
+    <div class="container">
+        <h2>Your Leave Applications</h2>
+
+        {% if leave_applications %}
+        <table class="table-responsive">
+            <tr>
+                <th>Start Date</th>
+                <th>End Date</th>
+                <th>Reason</th>
+                <th>Status</th>
+            </tr>
+            {% for leave in leave_applications %}
+            <tr>
+                <td>{{ leave.start_date }}</td>
+                <td>{{ leave.end_date }}</td>
+                <td>{{ leave.reason }}</td>
+                <td class="{% if leave.status == 'Approved' %}approved{% elif leave.status == 'Pending' %}pending{% else %}rejected{% endif %}">
+                    {{ leave.status }}
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+        {% else %}
+        <p class="no-data">You have not applied for any leave yet.</p>
+        {% endif %}
+    </div>
+
+</body>
+</html>

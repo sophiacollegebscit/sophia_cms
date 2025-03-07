@@ -1,21 +1,95 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apply for Leave</title>
+    <link rel="stylesheet" href="{% static 'styles/dashboard.css' %}">
+</head>
+<body>
 
-{% block content %}
-<h2>Apply for Leave</h2>
-<form method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    
-    <label for="start_date">Start Date:</label>
-    <input type="date" name="start_date" required>
+    <div class="container">
+        <h2>Apply for Leave</h2>
 
-    <label for="end_date">End Date:</label>
-    <input type="date" name="end_date" required>
+        <!-- Display Messages -->
+        {% if messages %}
+            {% for message in messages %}
+                <p class="message {% if message.tags == 'error' %}error{% else %}success{% endif %}">
+                    {{ message }}
+                </p>
+            {% endfor %}
+        {% endif %}
 
-    <label for="reason">Reason:</label>
-    <textarea name="reason" required></textarea>
+        <!-- Success Message & View Leave History Button -->
+        {% if success_message %}
+            <p class="success">{{ success_message }}</p>
+            <a href="{% url 'leave_history' %}" class="btn">View Leave History</a>
+        {% else %}
 
-    <label for="proof">Upload Proof (Optional):</label>
-    <input type="file" name="proof">
+        <form method="post" enctype="multipart/form-data" onsubmit="return validateForm()">
+            {% csrf_token %}
 
-    <button type="submit">Submit</button>
-</form>
-{% endblock %}
+            <div class="form-group">
+                <label for="start_date">Start Date:</label>
+                <input type="date" name="start_date" id="start_date" required>
+            </div>
+
+            <div class="form-group">
+                <label for="end_date">End Date:</label>
+                <input type="date" name="end_date" id="end_date" required>
+            </div>
+
+            <div class="form-group">
+                <label for="reason">Reason:</label>
+                <textarea name="reason" id="reason" required minlength="10"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="proof">Upload Proof (Optional):</label>
+                <input type="file" name="proof" id="proof" accept=".pdf,.jpg,.jpeg,.png,.docx">
+            </div>
+
+            <button type="submit" class="btn">Submit</button>
+        </form>
+
+        {% endif %}
+    </div>
+
+    <!-- JavaScript Validations -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const today = new Date().toISOString().split("T")[0];
+            document.getElementById("start_date").setAttribute("min", today);
+            document.getElementById("end_date").setAttribute("min", today);
+        });
+
+        function validateForm() {
+            let startDate = document.getElementById("start_date").value;
+            let endDate = document.getElementById("end_date").value;
+            let reason = document.getElementById("reason").value;
+            let proof = document.getElementById("proof").value;
+
+            if (startDate > endDate) {
+                alert("End date must be after the start date.");
+                return false;
+            }
+
+            if (reason.length < 10) {
+                alert("Reason must be at least 10 characters long.");
+                return false;
+            }
+
+            if (proof) {
+                let allowedExtensions = /(\.pdf|\.jpg|\.jpeg|\.png|\.docx)$/i;
+                if (!allowedExtensions.exec(proof)) {
+                    alert("Invalid file format! Allowed: PDF, JPG, PNG, DOCX.");
+                    return false;
+                }
+            }
+            return true;
+        }
+    </script>
+
+</body>
+</html>

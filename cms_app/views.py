@@ -1,7 +1,8 @@
-from django.contrib.auth.decorators import login_required
+import re
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from .models import LeaveApplication
+from datetime import date
 from django.conf import settings
 from django.utils.crypto import get_random_string
 from django.urls import reverse
@@ -131,41 +132,65 @@ def reset_password(request):
         new_password = request.POST.get('new_password')
         confirm_password = request.POST.get('confirm_password')
 
-        if check_password(old_password, student.password):
-            if new_password == confirm_password:
-                student.password = make_password(new_password)
-                student.save()
-                messages.success(request, 'Your password has been updated!')
-                return redirect('student_dashboard')
-            else:
-                messages.error(request, 'New passwords do not match.')
-        else:
+        # Strong password pattern: At least 8 characters, 1 uppercase, 1 lowercase, 1 number, 1 special character
+        password_pattern = r"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*().?])[A-Za-z\d!@#$%^&*().?]{8,}$"
+
+
+        # Validate old password
+        if not check_password(old_password, student.password):
             messages.error(request, 'Incorrect old password.')
+            return redirect('reset_password')
+
+        # Validate new password strength
+        if not re.match(password_pattern, new_password):
+            messages.error(request, "Password must be at least 8 characters long and include: "
+                                    "one uppercase letter, one lowercase letter, one number, and one special character.")
+            return redirect('reset_password')
+
+        # Check if new passwords match
+        if new_password != confirm_password:
+            messages.error(request, 'New passwords do not match.')
+            return redirect('reset_password')
+
+        # Update password
+        student.password = make_password(new_password)
+        student.save()
+        return redirect('student_dashboard')
 
     return render(request, 'cms_app/reset_password.html')
 
 def student_password_reset_request(request):
     if request.method == "POST":
-        email = request.POST.get("email")
+        email = request.POST.get("email").strip()
+
+        # Check if student exists
         try:
             student = Student.objects.get(email=email)
-            token = get_random_string(30)  # Generate a random token
-            student.reset_token = token  # Store token in the database
-            student.save()
-            
-            reset_link = request.build_absolute_uri(reverse("student_password_reset_confirm", args=[token]))
+        except Student.DoesNotExist:
+            messages.error(request, "No account found with this email.")
+            return redirect("student_password_reset_request")
 
+        # Generate and store reset token
+        token = get_random_string(30)
+        student.reset_token = token
+        student.save()
+
+        # Create reset link
+        reset_link = request.build_absolute_uri(reverse("student_password_reset_confirm", args=[token]))
+
+        # Send reset email
+        try:
             send_mail(
                 "Password Reset Request",
                 f"Click the link to reset your password: {reset_link}",
-                "website.bscit@sophiacollege.edu.in",
+                "website.bscit@sophiacollege.edu.in",  # Must match EMAIL_HOST_USER in settings.py
                 [email],
                 fail_silently=False,
             )
             messages.success(request, "A password reset link has been sent to your email.")
-        except Student.DoesNotExist:
-            messages.error(request, "No account found with this email.")
-    
+        except Exception as e:
+            messages.error(request, f"Error sending email: {str(e)}")  # Logs any email errors
+
     return render(request, "cms_app/student_password_reset_request.html")
 
 
@@ -204,6 +229,7 @@ def timetables(request):
 
 def apply_leave(request):
     student = Student.objects.get(email=request.session.get("student_email"))  # Adjust based on your auth system
+    success_message = None  # Store success message without redirecting
 
     if request.method == "POST":
         start_date = request.POST.get("start_date")
@@ -259,43 +285,12 @@ def apply_leave(request):
         """
         send_mail(admin_subject, admin_message, settings.EMAIL_HOST_USER, [admin_email])
 
-        messages.success(request, "Leave application submitted successfully.")
-        return redirect("leave_history")
+        success_message = "Leave application submitted successfully."
 
-    return render(request, "cms_app/apply_leave.html")
+    return render(request, "cms_app/apply_leave.html", {"success_message": success_message})
 
 
-def manage_leave(request, leave_id):
-    leave = get_object_or_404(LeaveApplication, id=leave_id)
 
-    if request.method == "POST":
-        status = request.POST.get("status")
-        remarks = request.POST.get("remarks", "")
-
-        leave.status = status
-        leave.admin_remarks = remarks
-        leave.save()
-
-        # Notify student about status change
-        student_email = leave.student.email
-        subject = "Leave Application Status Updated"
-        message = f"""
-        Dear {leave.student.first_name},
-
-        Your leave application status has been updated.
-
-        Status: {leave.status}
-        Remarks: {leave.admin_remarks}
-
-        Regards,
-        Admin Team
-        """
-        send_mail(subject, message, settings.EMAIL_HOST_USER, [student_email])
-
-        messages.success(request, "Leave status updated successfully.")
-        return redirect("admin_leave_list")
-
-    return render(request, "cms_app/manage_leave.html", {"leave": leave})
 
 def leave_history(request):
     student = Student.objects.get(email=request.session.get("student_email"))
