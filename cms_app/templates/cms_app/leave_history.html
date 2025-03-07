@@ -1,0 +1,20 @@
+
+{% block content %}
+<h2>Your Leave Applications</h2>
+<table>
+    <tr>
+        <th>Start Date</th>
+        <th>End Date</th>
+        <th>Reason</th>
+        <th>Status</th>
+    </tr>
+    {% for leave in leave_applications %}
+    <tr>
+        <td>{{ leave.start_date }}</td>
+        <td>{{ leave.end_date }}</td>
+        <td>{{ leave.reason }}</td>
+        <td>{{ leave.status }}</td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}

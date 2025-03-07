@@ -62,7 +62,8 @@
             <p><strong>Email:</strong> {{ student.email }}</p>
             <a href="#" class="btn">View Lecture Timetable</a>
             <a href="#" class="btn">View Exam Timetable</a>
-            <a href="#" class="btn">Leave Application</a>
+            <a href="{% url 'apply_leave' %}" class="btn">Leave Application</a>
+            <a href="{% url 'leave_history' %}" class="btn">Leave History</a>
             <a href="{% url 'reset_password' %}" class="btn btn-secondary">Reset Password</a>
             <a href="{% url 'student_logout' %}" class="btn btn-secondary">Logout</a>
         {% elif error %}

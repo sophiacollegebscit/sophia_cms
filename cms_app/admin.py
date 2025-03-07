@@ -13,7 +13,7 @@ from import_export.admin import ExportMixin, ImportMixin
 from .models import Student
 from django.contrib.auth.hashers import make_password
 from .resources import StudentResource
-from .models import StudentClass, LectureTimetable, ExamTimetable
+from .models import StudentClass, LectureTimetable, ExamTimetable, LeaveApplication
 
 admin.site.site_header = "BScIT Admin Panel"
 admin.site.site_title = "BScIT Admin"
@@ -77,3 +77,9 @@ class ExamTimetableAdmin(admin.ModelAdmin):
     list_display = ("title", "student_class", "uploaded_at")
     search_fields = ("title",)
     list_filter = ("student_class",)
+
+@admin.register(LeaveApplication)
+class LeaveApplicationAdmin(admin.ModelAdmin):
+    list_display = ("student", "start_date", "end_date", "status", "applied_at")
+    list_filter = ("status", "applied_at")
+    search_fields = ("student__email", "reason")

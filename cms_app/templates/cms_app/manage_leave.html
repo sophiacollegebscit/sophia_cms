@@ -1,0 +1,27 @@
+
+{% block content %}
+<h2>Manage Leave Application</h2>
+<p><strong>Student:</strong> {{ leave.student.email }}</p>
+<p><strong>Start Date:</strong> {{ leave.start_date }}</p>
+<p><strong>End Date:</strong> {{ leave.end_date }}</p>
+<p><strong>Reason:</strong> {{ leave.reason }}</p>
+<p><strong>Status:</strong> {{ leave.status }}</p>
+
+{% if leave.proof %}
+    <p><strong>Proof Document:</strong> <a href="{{ leave.proof.url }}" target="_blank">View Proof</a></p>
+{% else %}
+    <p>No proof provided.</p>
+{% endif %}
+
+<form method="post">
+    {% csrf_token %}
+    <label for="status">Update Status:</label>
+    <select name="status">
+        <option value="Approved">Approve</option>
+        <option value="Denied">Deny</option>
+    </select>
+    <label for="remarks">Remarks:</label>
+    <textarea name="remarks"></textarea>
+    <button type="submit">Update</button>
+</form>
+{% endblock %}

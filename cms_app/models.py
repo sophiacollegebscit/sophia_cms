@@ -177,4 +177,21 @@ class ExamTimetable(models.Model):
         return f"{self.student_class} - {self.title}"
 
 
+class LeaveApplication(models.Model):
+    class Status(models.TextChoices):
+        PENDING = "Pending", "Pending"
+        APPROVED = "Approved", "Approved"
+        DENIED = "Denied", "Denied"
+
+    student = models.ForeignKey(Student, on_delete=models.CASCADE, related_name="leave_applications")
+    start_date = models.DateField()
+    end_date = models.DateField()
+    reason = models.TextField()
+    proof = models.FileField(upload_to="leave_proofs/", blank=True, null=True)  # Optional proof field
+    status = models.CharField(max_length=10, choices=Status.choices, default=Status.PENDING)
+    applied_at = models.DateTimeField(auto_now_add=True)
+    admin_remarks = models.TextField(blank=True, null=True)
+
+    def __str__(self):
+        return f"{self.student.email} - {self.status}"
         

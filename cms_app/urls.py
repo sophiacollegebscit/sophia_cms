@@ -10,6 +10,9 @@ from .views import student_dashboard
 from .views import reset_password
 from .views import student_logout
 from .views import timetables
+from .views import apply_leave
+from .views import manage_leave
+from .views import leave_history
 from .views import student_password_reset_request, student_password_reset_confirm
 
 urlpatterns = [
@@ -28,5 +31,9 @@ urlpatterns = [
       path("timetables/", timetables, name="timetables"),
      path("student_password_reset/", student_password_reset_request, name="student_password_reset"),
     path("reset/<str:token>/", student_password_reset_confirm, name="student_password_reset_confirm"),
+    path("apply-leave/", apply_leave, name="apply_leave"),
+    path("manage-leave/<int:leave_id>/", manage_leave, name="manage_leave"),
+    path("leave-history/", leave_history, name="leave_history"),
+
 ]
 

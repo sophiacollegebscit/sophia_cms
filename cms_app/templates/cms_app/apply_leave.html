@@ -1,0 +1,21 @@
+
+{% block content %}
+<h2>Apply for Leave</h2>
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    
+    <label for="start_date">Start Date:</label>
+    <input type="date" name="start_date" required>
+
+    <label for="end_date">End Date:</label>
+    <input type="date" name="end_date" required>
+
+    <label for="reason">Reason:</label>
+    <textarea name="reason" required></textarea>
+
+    <label for="proof">Upload Proof (Optional):</label>
+    <input type="file" name="proof">
+
+    <button type="submit">Submit</button>
+</form>
+{% endblock %}

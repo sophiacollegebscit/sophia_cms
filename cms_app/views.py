@@ -1,7 +1,8 @@
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
-
+from .models import LeaveApplication
+from django.conf import settings
 from django.utils.crypto import get_random_string
 from django.urls import reverse
 from .models import Student
@@ -199,3 +200,104 @@ def timetables(request):
         "exam_timetables": exam_timetables,
     }
     return render(request, "cms_app/timetables.html", context)
+
+
+def apply_leave(request):
+    student = Student.objects.get(email=request.session.get("student_email"))  # Adjust based on your auth system
+
+    if request.method == "POST":
+        start_date = request.POST.get("start_date")
+        end_date = request.POST.get("end_date")
+        reason = request.POST.get("reason")
+        proof = request.FILES.get("proof")
+
+        leave = LeaveApplication(student=student, start_date=start_date, end_date=end_date, reason=reason, proof=proof)
+        leave.save()
+
+        # Email proof details (if available)
+        proof_text = f"Proof attached: {request.build_absolute_uri(leave.proof.url)}" if leave.proof else "No proof attached."
+
+        # Notify student
+        student_email = student.email
+        student_subject = "Leave Application Submitted"
+        student_message = f"""
+        Dear {student.first_name},
+
+        Your leave application has been submitted successfully.
+
+        Details:
+        Start Date: {leave.start_date}
+        End Date: {leave.end_date}
+        Reason: {leave.reason}
+        Status: Pending
+        {proof_text}
+
+        You will be notified once your leave status is updated.
+
+        Regards,
+        Admin Team
+        """
+        send_mail(student_subject, student_message, settings.EMAIL_HOST_USER, [student_email])
+
+        # Notify admin
+        admin_email = "website.bscit@sophiacollege.edu.in"  # Replace with actual admin email
+        admin_subject = "New Leave Application Submitted"
+        admin_message = f"""
+        A new leave application has been submitted by {student.email}.
+
+        Details:
+        Start Date: {leave.start_date}
+        End Date: {leave.end_date}
+        Reason: {leave.reason}
+
+        {proof_text}
+
+        Please review and update the leave status in the admin panel.
+
+        Regards,
+        System Notification
+        """
+        send_mail(admin_subject, admin_message, settings.EMAIL_HOST_USER, [admin_email])
+
+        messages.success(request, "Leave application submitted successfully.")
+        return redirect("leave_history")
+
+    return render(request, "cms_app/apply_leave.html")
+
+
+def manage_leave(request, leave_id):
+    leave = get_object_or_404(LeaveApplication, id=leave_id)
+
+    if request.method == "POST":
+        status = request.POST.get("status")
+        remarks = request.POST.get("remarks", "")
+
+        leave.status = status
+        leave.admin_remarks = remarks
+        leave.save()
+
+        # Notify student about status change
+        student_email = leave.student.email
+        subject = "Leave Application Status Updated"
+        message = f"""
+        Dear {leave.student.first_name},
+
+        Your leave application status has been updated.
+
+        Status: {leave.status}
+        Remarks: {leave.admin_remarks}
+
+        Regards,
+        Admin Team
+        """
+        send_mail(subject, message, settings.EMAIL_HOST_USER, [student_email])
+
+        messages.success(request, "Leave status updated successfully.")
+        return redirect("admin_leave_list")
+
+    return render(request, "cms_app/manage_leave.html", {"leave": leave})
+
+def leave_history(request):
+    student = Student.objects.get(email=request.session.get("student_email"))
+    leave_applications = LeaveApplication.objects.filter(student=student).order_by("-applied_at")
+    return render(request, "cms_app/leave_history.html", {"leave_applications": leave_applications})
