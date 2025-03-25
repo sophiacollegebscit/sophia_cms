@@ -16,8 +16,8 @@ body {
   padding: 20px;
 }
 
-/* Common Container */
-.container {
+/* Common Container Styles */
+.container, .profile-container, .reset-container {
   width: 100%;
   max-width: 900px;
   background: white;
@@ -27,11 +27,35 @@ body {
   text-align: center;
 }
 
+/* Specific Container Variants */
+.profile-container, .reset-container {
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 /* Headings */
-h2 {
+h1, h2 {
   margin-bottom: 20px;
-  font-size: 24px;
   color: #007bff;
+  text-align: center;
+}
+
+h1 {
+  font-size: 26px;
+}
+
+h2 {
+  font-size: 24px;
+}
+
+/* Paragraphs */
+p {
+  margin: 10px 0;
+  font-size: 16px;
+  color: #555;
+  text-align: center;
 }
 
 /* Form Styling */
@@ -62,8 +86,8 @@ textarea {
   min-height: 80px;
 }
 
-/* Buttons */
-.btn {
+/* Button Styling */
+.btn, button[type="submit"] {
   background: #007bff;
   color: white;
   border: none;
@@ -72,21 +96,61 @@ textarea {
   cursor: pointer;
   border-radius: 5px;
   transition: 0.3s;
+  display: inline-block;
+  text-decoration: none;
+  text-align: center;
+  min-width: 160px;
+  margin: 5px;
+  word-wrap: break-word;
 }
 
-.btn:hover {
+.btn:hover, button[type="submit"]:hover {
   background: #0056b3;
 }
 
+.btn-primary {
+  background: #007bff;
+}
+
+.btn-primary:hover {
+  background: #0056b3;
+}
+
+.btn-secondary {
+  background: #dc3545;
+}
+
+.btn-secondary:hover {
+  background: #a71d2a;
+}
+
+/* Button Container (for better layout) */
+.button-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 15px;
+}
+
 /* Messages */
-.success-message {
+.success-message, p.success {
   color: green;
   font-weight: bold;
 }
 
-.error-message {
-  color: red;
+.error-message, p.error, p[style="color: red"] {
+  color: red !important;
   font-weight: bold;
+}
+
+/* Django message framework classes */
+p.info {
+  color: #17a2b8 !important;
+}
+
+p.warning {
+  color: #ffc107 !important;
 }
 
 /* Responsive Table */
@@ -135,57 +199,80 @@ th {
   margin-top: 20px;
 }
 
+/* Fix for URL buttons */
+a.btn, a.btn-primary, a.btn-secondary {
+  white-space: normal;
+  max-width: 100%;
+  hyphens: auto;
+  display: inline-block;
+}
+
 /* Responsive Design */
 @media (max-width: 1024px) {
-  .container {
-      max-width: 85%;
-      padding: 15px;
+  .container, .profile-container, .reset-container {
+    max-width: 85%;
+    padding: 15px;
+  }
+  
+  .profile-container, .reset-container {
+    max-width: 380px;
   }
 }
 
 @media (max-width: 768px) {
-  h2 {
-      font-size: 20px;
+  h1, h2 {
+    font-size: 22px;
   }
 
   input, textarea, select {
-      font-size: 14px;
-      padding: 8px;
+    font-size: 14px;
+    padding: 8px;
   }
 
-  .btn {
-      font-size: 14px;
-      padding: 10px;
+  .btn, button[type="submit"] {
+    font-size: 14px;
+    padding: 10px;
+    min-width: 140px;
   }
 
   th, td {
-      padding: 8px;
-      font-size: 14px;
+    padding: 8px;
+    font-size: 14px;
+  }
+
+  .button-container {
+    flex-direction: column;
+    align-items: center;
   }
 }
 
 @media (max-width: 480px) {
-  .container {
-      max-width: 95%;
-      padding: 10px;
+  .container, .profile-container, .reset-container {
+    max-width: 95%;
+    padding: 10px;
+  }
+  
+  .profile-container, .reset-container {
+    max-width: 320px;
   }
 
-  h2 {
-      font-size: 18px;
+  h1, h2 {
+    font-size: 18px;
   }
 
   input, textarea, select {
-      font-size: 12px;
-      padding: 6px;
+    font-size: 12px;
+    padding: 6px;
   }
 
-  .btn {
-      font-size: 12px;
-      padding: 8px;
+  .btn, button[type="submit"] {
+    font-size: 12px;
+    padding: 8px;
+    min-width: 120px;
   }
 
   th, td {
-      padding: 6px;
-      font-size: 12px;
+    padding: 6px;
+    font-size: 12px;
   }
 }

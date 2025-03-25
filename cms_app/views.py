@@ -14,6 +14,7 @@ from .models import AcademicYear
 from .models import Semester
 from .models import AboutProgram, PlacementRecord, JobProfile, Recruiter
 from .models import Alumni
+from .models import IndustrialVisit
 from django.contrib.auth.hashers import check_password
 from django.contrib.auth.hashers import make_password
 from .models import LectureTimetable, ExamTimetable, StudentClass
@@ -59,6 +60,11 @@ def placement_page(request):
 def alumni_page(request):
     alumni = Alumni.objects.all()
     return render(request, "cms_app/alumni.html", {"alumni": alumni})
+
+
+def industrial_visits(request):
+    visits = IndustrialVisit.objects.prefetch_related("days", "images").all()
+    return render(request, "cms_app/industrial_visits.html", {"visits": visits})
 
 def navbar(request):
     return render(request, 'navbar.html')

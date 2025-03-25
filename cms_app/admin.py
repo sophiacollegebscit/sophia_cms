@@ -14,6 +14,7 @@ from .models import Student
 from django.contrib.auth.hashers import make_password
 from .resources import StudentResource
 from .models import StudentClass, LectureTimetable, ExamTimetable, LeaveApplication
+from .models import IndustrialVisit, VisitDay, VisitImage
 
 admin.site.site_header = "BScIT Admin Panel"
 admin.site.site_title = "BScIT Admin"
@@ -37,6 +38,20 @@ class AlumniAdmin(admin.ModelAdmin):
     list_display = ("name", "batch", "current_position")
     search_fields = ("name", "batch", "current_position")
 
+
+class VisitDayInline(admin.TabularInline):
+    model = VisitDay
+    extra = 1
+
+class VisitImageInline(admin.TabularInline):
+    model = VisitImage
+    extra = 1
+
+@admin.register(IndustrialVisit)
+class IndustrialVisitAdmin(admin.ModelAdmin):
+    list_display = ("destination", "year", "batch_size")
+    inlines = [VisitDayInline, VisitImageInline]
+    
 class StudentResource(resources.ModelResource):
     class Meta:
         model = Student

@@ -133,6 +133,34 @@ class Alumni(models.Model):
     def __str__(self):
         return self.name
 
+class IndustrialVisit(models.Model):
+    destination = models.CharField(max_length=255)
+    year = models.CharField(max_length=10)
+    duration = models.CharField(max_length=50)
+    batch_size = models.IntegerField()
+    
+    class Meta:
+        verbose_name = "Industrial Visit"
+        verbose_name_plural = "Industrial Visits"
+
+    def __str__(self):
+        return f"{self.destination} - {self.year}"
+
+class VisitDay(models.Model):
+    visit = models.ForeignKey(IndustrialVisit, related_name="days", on_delete=models.CASCADE)
+    day_number = models.IntegerField()
+    title = models.CharField(max_length=255)
+    description = models.TextField()
+
+    def __str__(self):
+        return f"Day {self.day_number} - {self.title} ({self.visit.destination})"
+
+class VisitImage(models.Model):
+    visit = models.ForeignKey(IndustrialVisit, related_name="images", on_delete=models.CASCADE)
+    image = models.ImageField(upload_to="industrial_visits/")
+
+    def __str__(self):
+        return f"Image for {self.visit.destination}"
 
 class Student(models.Model):
     email = models.EmailField(unique=True)
